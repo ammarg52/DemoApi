@@ -28,6 +28,41 @@ namespace DemoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddOData();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularDevClient",
+                  builder =>
+                  {
+                      builder
+                      .WithOrigins("http://localhost:4200")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+                  });
+                  options.AddPolicy("AllowAngularDevClient",
+                  builder =>
+                  {
+                      builder
+                      .WithOrigins("http://localhost:8093")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+                  });
+                options.AddPolicy("AllowAngularClient",
+                  builder =>
+                  {
+                      builder
+                      .WithOrigins("http://localhost")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+                  });
+                  options.AddPolicy("AllowAngularClient",
+                  builder =>
+                  {
+                      builder
+                      .WithOrigins("http://localhost:8093")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+                  });
+            });
             services.AddSwaggerGen();
             services.AddEndpointsApiExplorer();
         }
@@ -35,23 +70,23 @@ namespace DemoApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseCors("AllowAngularDevClient");
+            app.UseCors("AllowAngularClient");
+
+
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
