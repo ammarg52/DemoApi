@@ -1,0 +1,13 @@
+az group create --name rg-matman-poc --location southcentralus
+
+az acr create --resource-group rg-matman-poc --name acrmatmanpoc --sku Basic
+
+az acr login --name acrmatmanpoc
+
+az acr list --resource-group rg-matman-poc --query "[].{acrLoginServer:loginServer}" --output table
+
+acrmatmanpoc.azurecr.io
+
+docker tag 
+
+az acr repository list --name acrmatmanpoc --output table

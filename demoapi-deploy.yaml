@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: demoapi-cont
-        image: ammarg52/demoapi:latest # replace with your web API image name
+        image: acrmatmanpoc.azurecr.io/demoapi:latest # replace with your web API image name
         imagePullPolicy: IfNotPresent # pull image only if it doesn't exist
         ports:
           - containerPort: 8090
