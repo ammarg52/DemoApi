@@ -24,41 +24,18 @@ namespace DemoApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. 
+        //Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddOData();
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAngularDevClient",
-                  builder =>
-                  {
-                      builder
-                      .WithOrigins("http://localhost:4200")
-                      .AllowAnyHeader()
-                      .AllowAnyMethod();
-                  });
-                  options.AddPolicy("AllowAngularDevClient",
-                  builder =>
-                  {
-                      builder
-                      .WithOrigins("http://localhost:8093")
-                      .AllowAnyHeader()
-                      .AllowAnyMethod();
-                  });
                 options.AddPolicy("AllowAngularClient",
                   builder =>
                   {
                       builder
-                      .WithOrigins("http://localhost")
-                      .AllowAnyHeader()
-                      .AllowAnyMethod();
-                  });
-                  options.AddPolicy("AllowAngularClient",
-                  builder =>
-                  {
-                      builder
-                      .WithOrigins("http://localhost:8093")
+                      .AllowAnyOrigin()
                       .AllowAnyHeader()
                       .AllowAnyMethod();
                   });
@@ -67,13 +44,12 @@ namespace DemoApi
             services.AddEndpointsApiExplorer();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. 
+        //Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors("AllowAngularDevClient");
+            //    app.UseCors("AllowAngularDevClient");
             app.UseCors("AllowAngularClient");
-
-
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -90,3 +66,37 @@ namespace DemoApi
         }
     }
 }
+
+
+//options.AddPolicy("AllowAngularDevClient",
+                //   builder =>
+                //   {
+                //       builder
+                //       .WithOrigins("http://localhost:4200")
+                //       .AllowAnyHeader()
+                //       .AllowAnyMethod();
+                //   });
+                //   options.AddPolicy("AllowAngularDevClient",
+                //   builder =>
+                //   {
+                //       builder
+                //       .WithOrigins("http://localhost:5152")
+                //       .AllowAnyHeader()
+                //       .AllowAnyMethod();
+                //   });
+                // options.AddPolicy("AllowAngularClient",
+                //   builder =>
+                //   {
+                //       builder
+                //       .WithOrigins("http://localhost")
+                //       .AllowAnyHeader()
+                //       .AllowAnyMethod();
+                //   });
+                //   options.AddPolicy("AllowAngularClient",
+                //   builder =>
+                //   {
+                //       builder
+                //       .WithOrigins("http://localhost:5152")
+                //       .AllowAnyHeader()
+                //       .AllowAnyMethod();
+                //   });
